@@ -16,7 +16,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: Task
 meta
-  name: run-nose-tests
+  name: run-pytest-tests
 spec:
   workspaces:
     - name: source
@@ -25,9 +25,9 @@ spec:
       image: python:3.11-slim
       workingDir: /workspace/source
       script: |
-        pip install -r requirements.txt nose
+        pip install -r requirements.txt pytest
     - name: run-tests
       image: python:3.11-slim
       workingDir: /workspace/source
       script: |
-        nosetests tests/
+        pytest tests/
