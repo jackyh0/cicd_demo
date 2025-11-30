@@ -1,6 +1,6 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
-metadata:
+meta
   name: cleanup-workspace
 spec:
   steps:
@@ -15,7 +15,7 @@ spec:
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
-metadata:
+meta
   name: run-nose-tests
 spec:
   workspaces:
@@ -25,8 +25,7 @@ spec:
       image: python:3.11-slim
       workingDir: /workspace/source
       script: |
-        pip install -r requirements.txt
-        pip install nose
+        pip install -r requirements.txt nose
     - name: run-tests
       image: python:3.11-slim
       workingDir: /workspace/source
