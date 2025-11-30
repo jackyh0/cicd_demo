@@ -1,0 +1,7 @@
+app.py
+setup.py
+cicd_demo.egg-info/PKG-INFO
+cicd_demo.egg-info/SOURCES.txt
+cicd_demo.egg-info/dependency_links.txt
+cicd_demo.egg-info/top_level.txt
+tests/test_app.py

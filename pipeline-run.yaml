@@ -1,6 +1,6 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
-meta
+metadata:
   generateName: cicd-demo-run-
 spec:
   pipelineSpec:
