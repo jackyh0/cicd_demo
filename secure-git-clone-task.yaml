@@ -1,0 +1,27 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: secure-git-clone
+spec:
+  workspaces:
+    - name: output
+  params:
+    - name: url
+      type: string
+    - name: revision
+      type: string
+      default: "main"
+  steps:
+    - name: clone
+      image: alpine/git
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        capabilities:
+          drop: ["ALL"]
+        seccompProfile:
+          type: RuntimeDefault
+      workingDir: $(workspaces.output.path)
+      script: |
+        git clone $(params.url) .
+        git checkout $(params.revision)

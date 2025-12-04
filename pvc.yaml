@@ -5,6 +5,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: skills-network-learner   # ✅ allowed
   resources:
     requests:
       storage: 1Gi
