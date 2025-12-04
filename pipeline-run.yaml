@@ -3,6 +3,13 @@ kind: PipelineRun
 metadata:
   generateName: cicd-demo-run-
 spec:
+  # Add podTemplate with security context at PipelineRun level
+  podTemplate:
+    securityContext:
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
+  
   pipelineSpec:
     workspaces:
       - name: shared-workspace
@@ -20,9 +27,25 @@ spec:
           steps:
             - name: clone
               image: alpine/git
-              # ⚠️ NO securityContext — let OpenShift auto-assign
+              # Add securityContext to the step
+              securityContext:
+                allowPrivilegeEscalation: false
+                runAsNonRoot: true
+                capabilities:
+                  drop:
+                    - ALL
+                seccompProfile:
+                  type: RuntimeDefault
+              # Set HOME to a writable directory
+              env:
+                - name: HOME
+                  value: $(workspaces.output.path)
               workingDir: $(workspaces.output.path)
               script: |
+                # Configure git to trust the directory
+                git config --global --add safe.directory $(workspaces.output.path)
+                
+                # Clone the repository
                 git clone $(params.url) .
                 git checkout $(params.revision)
         workspaces:
